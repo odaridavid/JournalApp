@@ -22,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,11 +33,19 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,23 +80,50 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private TextView appName;
-
+    private FirebaseAuth mFirebaseAuthentication;
+    private boolean successLogin = false;
+    private static final String TAG = "LoginActivity";
+    private SignInButton googleButton;
+    GoogleSignInClient mGoogleSignInClient;
+    private int RC_SIGN_IN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //Initialise Firebase Authentication
+        mFirebaseAuthentication = FirebaseAuth.getInstance();
+
+
+        //google button
+        googleButton = findViewById(R.id.sign_in_button);
+        googleButton.setSize(SignInButton.SIZE_STANDARD);
+
+         //calles google emails select pop up
+        findViewById(R.id.sign_in_button).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.sign_in_button:
+                        signIn();
+                        break;
+                    // ...
+                }
+            }
+        });
+
+        //App title change in font
         appName = findViewById(R.id.app_name);
         Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/FREESCPT.TTF");
         appName.setTypeface(custom_font);
 
         // Set up the login form.
         //Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
         //client
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+      mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
         mEmailView = findViewById(R.id.emailLogin);
@@ -117,6 +153,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent,RC_SIGN_IN);
+    }
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -124,6 +164,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         getLoaderManager().initLoader(0, null, this);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            // Signed in successfully, show authenticated UI.
+            updateUIGoogleSignIn(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            updateUI(null);
+        }
     }
 
     private boolean mayRequestContacts() {
@@ -330,24 +395,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // DONE attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            mFirebaseAuthentication.signInWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        //Sign in is is successful,Update Main UI Thread
+                        Log.d(TAG, "Email Sign In Success");
+                        FirebaseUser user = mFirebaseAuthentication.getCurrentUser();
+                        updateUI(user);
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                    } else {
+                        //Login Failure
+                        Log.w(TAG, "Email Sign In Failed ",task.getException() );
+                        Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+                        updateUI(null);
+                    }
                 }
-            }
+            });
 
-            // TODO: register the new account here.
+
             return true;
         }
 
@@ -356,7 +424,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (success && successLogin) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -371,18 +441,59 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    //update UI methods
+    //Firebase Instance
+    private void updateUI(FirebaseUser currentUser) {
+        if (currentUser != null){
+            successLogin = true;
+            // Name, email address, and profile photo Url
+            String name = currentUser.getDisplayName();
+            String email = currentUser.getEmail();
+            Uri photoUrl = currentUser.getPhotoUrl();
+
+            // Check if user's email is verified
+            boolean emailVerified = currentUser.isEmailVerified();
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getToken() instead.
+            String uid = currentUser.getUid();
+
+        }
+    }
+    //GoogleSignin
+  private void updateUIGoogleSignIn(GoogleSignInAccount currentUser) {
+        if (currentUser !=null){
+            successLogin = true;
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+  }
+
     @Override
     protected void onStart() {
         super.onStart();
         // Check for existing Google Sign In account, if the user is already signed in
-// the GoogleSignInAccount will be non-null.
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        // updateUI(account);
+        // the GoogleSignInAccount will be non-null.
+
+       GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+       updateUIGoogleSignIn(account);
+
+        //Firebase check is user is signed in and update of UI
+        FirebaseUser currentUser = mFirebaseAuthentication.getCurrentUser();
+        if (currentUser!=null || account!= null){
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void goToSignUp(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
+
 }
 
