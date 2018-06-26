@@ -4,11 +4,14 @@
     <string name="app_name">Journal App</string>
     <string name="title_activity_login">Sign in</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings related to login and Register-->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Enter Password</string>
+    <string name="prompt_username">Enter Username</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_up_short">Sign up</string>
+    <string name="error_invalid_charcters">Invalid Characters in Username</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -16,9 +19,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="SignInHere">Have an Account?</string>
     <string name="Register_here">Dont Have an Account?</string>
     <string name="Register">Register</string>
     <string name="or">OR</string>
+    <string name="title_activity_register">Sign in</string>
 
     <!--//////////////////// SETTINGS //////////-->
     <!--//////////////////// NAV DRAWER //////////-->

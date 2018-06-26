@@ -25,4 +25,5 @@
     <style name="Widget.AppCompat.Button" parent="android:Widget">
         <item name="android:background">@drawable/button_style</item>
     </style>
+
 </resources>
