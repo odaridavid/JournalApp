@@ -5,19 +5,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/recycler_journal_items"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:paddingBottom="@dimen/padding_bottom">-->
-        <!--<android.support.design.widget.FloatingActionButton-->
-            <!--android:id="@+id/floatingbutton_add_entry"-->
-            <!--android:layout_gravity = "bottom|end"-->
-            <!--android:layout_margin="@dimen/activity_horizontal_margin"-->
-            <!--app:srcCompat="@android:drawable/ic_input_add"-->
-            <!--android:tint="@color/colorAccent"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
-    <!--</android.support.v7.widget.RecyclerView>-->
+    <android.support.v7.widget.RecyclerView
+    android:id="@+id/recycler_journal_items"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/padding_bottom">
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/floatingbutton_add_entry"-->
+        <!--android:layout_gravity = "bottom|end"-->
+        <!--android:layout_margin="@dimen/activity_horizontal_margin"-->
+        <!--app:srcCompat="@android:drawable/ic_input_add"-->
+        <!--android:tint="@color/colorAccent"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+</android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

@@ -35,13 +35,12 @@ public class MainActivity extends AppCompatActivity  {
     private static final String TITLE = "title";
     private static final String AUTHOR = "author";
     private static final String TEXT= "text";
-    private static final String DATE= "date";
     private static final String DATABASE_COLLECTION = "Journal";
     private static final String DATABASE_DOCUMENT = "Entry";
 
-
-
-    JournalAdapter AdapterClass;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
     List<JournalEntries> entryList;
     FirebaseFirestore db;
 
@@ -57,16 +56,19 @@ public class MainActivity extends AppCompatActivity  {
       //  CollectionReference usersCollectionRef = db.collection("users");
         entryList = new ArrayList<>();
 
-//        //RecyclerView
-//        RecyclerView rvRecyclerView;
-//        rvRecyclerView = findViewById(R.id.recycler_journal_items);
-//        rvRecyclerView.setHasFixedSize(true);
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-//        rvRecyclerView.setLayoutManager(layoutManager);
-//
-//        AdapterClass = new JournalAdapter(this,entryList);
-//        rvRecyclerView.setAdapter(AdapterClass);
+
+        //RecyclerView
+        mRecyclerView = findViewById(R.id.recycler_journal_items);
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new JournalAdapter(this,entryList);
+        mRecyclerView.setAdapter(mAdapter);
+
 //
 //        FloatingActionButton fabAddCard;
 //        fabAddCard = findViewById(R.id.floatingbutton_add_entry);
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity  {
         textEntry.put(TITLE,getString(R.string.entry_title));
         textEntry.put(TEXT, getString(R.string.entry_text));
         textEntry.put(AUTHOR, getString(R.string.entry_author));
-        textEntry.put(DATE,new Date());
+
 
         db.collection(DATABASE_COLLECTION)
                 .document(DATABASE_DOCUMENT)
@@ -144,7 +146,7 @@ public class MainActivity extends AppCompatActivity  {
                 Toast.makeText(MainActivity.this,getString(R.string.entry_update_msg),Toast.LENGTH_SHORT).show();
             }
         });
-        journalDbReference.update(DATE,new Date());
+
     }
 
     private  void getDiaryEntries(){
