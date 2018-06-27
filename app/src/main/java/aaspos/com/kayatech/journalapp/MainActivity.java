@@ -69,16 +69,16 @@ public class MainActivity extends AppCompatActivity  {
         mAdapter = new JournalAdapter(this,entryList);
         mRecyclerView.setAdapter(mAdapter);
 
-//
-//        FloatingActionButton fabAddCard;
-//        fabAddCard = findViewById(R.id.floatingbutton_add_entry);
-//        fabAddCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Starts the add activity
-//                addNoteCard();
-//            }
-//        });
+
+        FloatingActionButton fabAddCard;
+        fabAddCard = findViewById(R.id.floatingbutton_add_entry);
+        fabAddCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Starts the add activity
+                addNoteCard();
+            }
+        });
 
     }
     protected void addNoteCard(){
