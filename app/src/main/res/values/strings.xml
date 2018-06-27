@@ -26,10 +26,12 @@
     <string name="error_email">Email Sign In Failed</string>
     <string name="error_sign_in_google">signInResult:failed code=</string>
     <string name="error_user">Couldnt Create User</string>
-
+    <string name="error_google_sign_in">Created User Successfully</string>
     <!--Email Password Success-->
     <string name="success_email">Email Sign In Success</string>
     <string name="success_user">Created User Successfully</string>
+    <string name="success_google_sign_in">Google Sign In Success</string>
+    <string name="success_firebase">firebaseAuthGoogle: </string>
 
     <!--Request id token-->
     <string name="id_token"> 256355480187-kfrlopguafkgbkqdvh9ve12nc0nf6nfa.apps.googleusercontent.com</string>

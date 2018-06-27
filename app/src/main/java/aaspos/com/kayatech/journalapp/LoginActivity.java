@@ -487,35 +487,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             boolSuccessLogin = true;
             Intent po = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(po);
-            // Name, email address, and profile photo Url
-            String name = currentUser.getDisplayName();
-            String email = currentUser.getEmail();
-            Uri photoUrl = currentUser.getPhotoUrl();
-
-            // Check if user's email is verified
-            boolean emailVerified = currentUser.isEmailVerified();
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getToken() instead.
-            String uid = currentUser.getUid();
-
         }
     }
 
-    //GoogleSignin
-//    private void updateUIGoogleSignIn(GoogleSignInAccount currentUser) {
-//        if (currentUser != null) {
-//            firebaseAuthGoogle(currentUser);
-//            boolSuccessLogin = true;
-//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
 
-   // }
 private void firebaseAuthGoogle(GoogleSignInAccount user){
-    Log.d(TAG, "firebaseAuthGoogle: "+user.getId());
+    Log.d(TAG, getString(R.string.success_firebase)+user.getId());
 
     AuthCredential googleCredentials = GoogleAuthProvider.getCredential(user.getIdToken(),null);
     mFirebaseAuthentication.signInWithCredential(googleCredentials)
@@ -523,12 +500,12 @@ private void firebaseAuthGoogle(GoogleSignInAccount user){
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
-                    Log.d(TAG, "Sign In with Google Success");
+                    Log.d(TAG, getString(R.string.success_google_sign_in));
                     FirebaseUser userFb = mFirebaseAuthentication.getCurrentUser();
                     updateUI(userFb);
                     }
                     else {
-                        Log.w(TAG, "Sign In Failure", task.getException());
+                        Log.w(TAG, getString(R.string.error_google_sign_in), task.getException());
 
                         updateUI(null);
                     }
