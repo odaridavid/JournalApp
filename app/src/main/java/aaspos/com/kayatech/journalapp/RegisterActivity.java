@@ -65,37 +65,40 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+    private static final String TAG = RegisterActivity.class.getSimpleName();
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
-    private TextView appname;
-    private EditText mUserName;
+    private AutoCompleteTextView tvEmailView;
+    private EditText etPasswordView;
+    private View viewProgressView;
+    private View viewLoginFormView;
+    private EditText etUserName;
+
+    //Authentication
     private FirebaseAuth mFirebaseAuthentication;
     private boolean successLogin = false;
-    private static final String TAG = "RegisterActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        //get FireBase Instance
         mFirebaseAuthentication = FirebaseAuth.getInstance();
 
-
-
-        appname = findViewById(R.id.app_name);
+        //App Name Text Font
+        TextView tvAppName;
+        tvAppName = findViewById(R.id.text_app_name);
         Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/FREESCPT.TTF");
-        appname.setTypeface(custom_font);
+        tvAppName.setTypeface(custom_font);
 
         // Set up the login form.
-        mEmailView =  findViewById(R.id.emailSignUp);
+        tvEmailView =  findViewById(R.id.text_email_sign_up);
         populateAutoComplete();
 
-        mPasswordView =  findViewById(R.id.passwordSignUp);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        etPasswordView =  findViewById(R.id.edit_password_sign_up);
+        etPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
@@ -106,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             }
         });
 
-        Button mEmailSignInButton =  findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton =  findViewById(R.id.button_email_sign_in);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,8 +117,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        viewLoginFormView = findViewById(R.id.scrollview_login_form);
+        viewProgressView = findViewById(R.id.progressbar_login_progress);
     }
 
     private void populateAutoComplete() {
@@ -138,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(tvEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -177,13 +180,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         }
 
         // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
+        tvEmailView.setError(null);
+        etPasswordView.setError(null);
 
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String email = tvEmailView.getText().toString();
+        String password = etPasswordView.getText().toString();
 
 
         boolean cancel = false;
@@ -191,19 +194,19 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+            etPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = etPasswordView;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+            tvEmailView.setError(getString(R.string.error_field_required));
+            focusView = tvEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+            tvEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = tvEmailView;
             cancel = true;
         }
 
@@ -241,28 +244,28 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+            viewLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            viewLoginFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    viewLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
+            viewProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            viewProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                    viewProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
                 }
             });
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            viewProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            viewLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -306,7 +309,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 new ArrayAdapter<>(RegisterActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+        tvEmailView.setAdapter(adapter);
     }
 
 
@@ -344,13 +347,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
-                        Log.d(TAG, "User Created");
+                        Log.d(TAG, getString(R.string.success_user));
                         FirebaseUser user = mFirebaseAuthentication.getCurrentUser();
                         updateUI(user);
                     }else{
                         //if sign in fails,disply a message to user
-                        Log.w(TAG, "User not Created",task.getException() );
-                        Toast.makeText(getApplicationContext(),"Authentication Failed",Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, getString(R.string.error_user),task.getException() );
+                        Toast.makeText(getApplicationContext(),getString(R.string.error_authentication),Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
                 }
@@ -374,8 +377,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 startActivity(intent);
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                etPasswordView.setError(getString(R.string.error_incorrect_password));
+                etPasswordView.requestFocus();
             }
         }
 

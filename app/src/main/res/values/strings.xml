@@ -1,16 +1,19 @@
 <resources>
 
     <!--Activity Tags-->
-    <string name="app_name">Journal App</string>
+    <string name="title_app_name">Journal App</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login and Register-->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Enter Password</string>
     <string name="prompt_username">Enter Username</string>
+
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_sign_up_short">Sign up</string>
+
+    <!--Email Password Errors-->
     <string name="error_invalid_charcters">Invalid Characters in Username</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -19,12 +22,48 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="SignInHere">Have an Account?</string>
-    <string name="Register_here">Dont Have an Account?</string>
-    <string name="Register">Register</string>
-    <string name="or">OR</string>
+    <string name="error_authentication">Authentication Failed</string>
+    <string name="error_email">Email Sign In Failed</string>
+    <string name="error_sign_in_google">signInResult:failed code=</string>
+    <string name="error_user">Couldnt Create User</string>
+
+    <!--Email Password Success-->
+    <string name="success_email">Email Sign In Success</string>
+    <string name="success_user">Created User Successfully</string>
+
+    <!--Request id token-->
+    <string name="id_token"> 256355480187-kfrlopguafkgbkqdvh9ve12nc0nf6nfa.apps.googleusercontent.com</string>
+
+    <string name="msg_sign_in_here">Have an Account?</string>
+    <string name="msg_sign_up">Dont Have an Account?</string>
+    <string name="title_register">Register</string>
+    <string name="msg_or">OR</string>
     <string name="title_activity_register">Sign in</string>
 
-    <!--//////////////////// SETTINGS //////////-->
-    <!--//////////////////// NAV DRAWER //////////-->
+    <!--Card View Entries-->
+    <string name="entry_author">David Odari</string>
+    <string name="entry_date">12/05/2017</string>
+    <string name="entry_title">Life</string>
+    <string name="entry_text">Life full of surprises and wonders</string>
+
+    <!--Card View Entries Created-->
+    <string name="entry_created">Document Created</string>
+    <string name="entry_created_log">Document Created Successful</string>
+
+    <!--Card View Entries Update-->
+    <string name="entry_update_author">David Odari</string>
+    <string name="entry_update_date">12/05/2017</string>
+    <string name="entry_update_title">Life</string>
+    <string name="entry_update_text">Life full of surprises and wonders</string>
+    <string name="entry_update_msg">Text Updated</string>
+
+    <!--Card View Entries Delete-->
+    <string name="entry_delete_msg">Deleted</string>
+
+    <!--Entry errors-->
+    <string name="error_document_failed">Error Writing To File</string>
+
+    <string name="error_title">ERROR</string>
+
+
 </resources>

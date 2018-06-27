@@ -15,9 +15,18 @@
     <dimen name="margin_left">32dp</dimen>
     <dimen name="margin_right">32dp</dimen>
 
-    <!--Radius Dimensions-->
+    <!--Radius Dimensions for buttons-->
     <dimen name="radius_top">32dp</dimen>
     <dimen name="radius_bottom">32dp</dimen>
 
+     <!--Card View -->
+    <dimen name="cardview_height">120dp</dimen>
+    <dimen name="margin_start">5dp</dimen>
+
+    <!--Drawable Padding-->
+    <dimen name="drawablePadding">2dp</dimen>
+
+    <!--Login view stroke dimensions-->
+    <dimen name="layoutHeight">1dp</dimen>
 
 </resources>
