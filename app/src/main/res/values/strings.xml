@@ -48,6 +48,11 @@
     <string name="title_activity_register">Sign in</string>
 
     <!--Card View Entries-->
+    <string name="label_title">Title</string>
+    <string name="label_author">Author</string>
+    <string name="label_text_entry">Enter Text</string>
+
+    <!--Dummy Data-->
     <string name="entry_author">David Odari</string>
     <string name="entry_date">12/05/2017</string>
     <string name="entry_title">Life</string>
@@ -62,7 +67,7 @@
     <string name="entry_update_date">12/05/2017</string>
     <string name="entry_update_title">Life</string>
     <string name="entry_update_text">Life full of surprises and wonders</string>
-    <string name="entry_update_msg">Text Updated</string>
+    <string name="entry_update_msg">Document Updated</string>
 
     <!--Card View Entries Delete-->
     <string name="entry_delete_msg">Deleted</string>

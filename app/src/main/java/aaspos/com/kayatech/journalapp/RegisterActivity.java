@@ -371,8 +371,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
-            if (success && successLogin) {
+            successLogin = success;
+            if (successLogin) {
                 Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -392,6 +392,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private void updateUI(FirebaseUser currentUser){
         if (currentUser != null){
             successLogin = true;
+
         }
     }
 

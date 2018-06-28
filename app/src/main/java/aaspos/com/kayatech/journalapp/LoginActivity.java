@@ -65,16 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
+
     private UserLoginTask mAuthTask = null;
     private static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -172,11 +163,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         //GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
          FirebaseUser currentUser = mFirebaseAuthentication.getCurrentUser();
-
-        updateUI(currentUser);
-
         //Firebase check is user is signed in and update of UI
-
         if (currentUser != null ) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
@@ -208,27 +195,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthGoogle(account);
+
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
+                Log.w(TAG, getString(R.string.error_sign_in_google)+ e.getStatusCode());
+                updateUI(null);
                 // ...
             }
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
-            // Signed in successfully, show authenticated UI.
-            firebaseAuthGoogle(account);
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, getString(R.string.error_sign_in_google) + e.getStatusCode());
-            updateUI(null);
-        }
-    }
 
     private boolean mayRequestContacts() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -442,8 +419,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     if (task.isSuccessful()) {
                         //Sign in is is successful,Update Main UI Thread
                         Log.d(TAG, getString(R.string.success_email));
-                        FirebaseUser user = mFirebaseAuthentication.getCurrentUser();
-                        updateUI(user);
+                        FirebaseUser userFb = mFirebaseAuthentication.getCurrentUser();
+                        updateUI(userFb);
+
 
                     } else {
                         //Login Failure
@@ -485,8 +463,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void updateUI(FirebaseUser currentUser) {
         if (currentUser != null) {
             boolSuccessLogin = true;
-            Intent po = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(po);
+          //  startActivity(new Intent(current_activity.this,next_activity.class))
+
+
+
         }
     }
 
@@ -502,7 +482,10 @@ private void firebaseAuthGoogle(GoogleSignInAccount user){
                     if (task.isSuccessful()){
                     Log.d(TAG, getString(R.string.success_google_sign_in));
                     FirebaseUser userFb = mFirebaseAuthentication.getCurrentUser();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
                     updateUI(userFb);
+
                     }
                     else {
                         Log.w(TAG, getString(R.string.error_google_sign_in), task.getException());

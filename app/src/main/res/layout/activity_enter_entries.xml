@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EnterEntriesActivity">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/edit_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="71dp"
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:gravity="top"
+                    android:hint="@string/label_title"
+                    android:imeActionId="6"
+                    android:imeActionLabel="@string/label_title"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="text"
+                    android:maxLines="100"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:singleLine="true"
+                    android:textColor="@color/textColorBlack" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_author"
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                app:layout_constraintLeft_toLeftOf="@+id/layout_title"
+                app:layout_constraintTop_toBottomOf="@+id/layout_title">
+
+                <EditText
+                    android:id="@+id/edit_author"
+                    android:layout_width="match_parent"
+                    android:layout_height="71dp"
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:hint="@string/label_author"
+                    android:imeActionId="6"
+                    android:imeActionLabel="@string/label_author"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="text"
+                    android:maxLines="100"
+                    android:gravity="top"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:singleLine="true"
+                    android:textColor="@color/textColorBlack" />
+            </android.support.design.widget.TextInputLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                app:layout_constraintLeft_toLeftOf="@+id/layout_author"
+                app:layout_constraintTop_toBottomOf="@+id/layout_author">
+
+                <EditText
+                    android:id="@+id/edit_text_entry"
+                    android:layout_width="match_parent"
+                    android:layout_height="310dp"
+
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:layout_marginBottom="@dimen/cardview_height"
+                    android:hint="@string/label_text_entry"
+                    android:imeActionId="6"
+                    android:imeActionLabel="@string/label_text_entry"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textMultiLine"
+                    android:gravity="top"
+                    android:maxLines="200"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:singleLine="true"
+                    android:textColor="@color/textColorBlack" />
+            </android.support.design.widget.TextInputLayout>
+            </ScrollView>
+        </LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/margin_start"
+        android:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_agenda" />
+
+</android.support.constraint.ConstraintLayout>
