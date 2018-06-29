@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,48 +9,45 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="8dp">
+        card_view:cardCornerRadius="@dimen/card_view_radius_recycler_list">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/text_title_recycler_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_start"
-
                 android:text="@string/entry_title"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                android:textColor="#000000" />
+                android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/tvAuthor"
+                android:id="@+id/text_author_recycler_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvTitle"
+                android:layout_below="@+id/text_title_recycler_list"
                 android:layout_marginStart="@dimen/margin_start"
-                android:layout_marginTop="5dp"
-
+                android:layout_marginTop="@dimen/margin_top_items"
                 android:text="@string/entry_author"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorPrimary" />
 
             <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
+                android:id="@+id/text_date_recycler_list"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvAuthor"
-                android:layout_marginStart="@dimen/margin_start"
-                android:layout_marginTop="5dp"
-
+                android:layout_below="@+id/text_author_recycler_list"
+                android:layout_marginStart="@dimen/margin_start_recycler_item"
+                android:layout_marginTop="@dimen/margin_top_items"
                 android:background="@color/colorAccent"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:paddingEnd="@dimen/padding_right"
+                android:paddingStart="@dimen/padding_right"
                 android:text="@string/entry_date"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
                 android:textStyle="bold" />
-
 
 
         </RelativeLayout>

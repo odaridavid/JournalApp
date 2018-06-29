@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DetailActivity extends AppCompatActivity {
+    //Constants
     private static final String TAG = DetailActivity.class.getSimpleName();
     private static final String DATABASE_DOCUMENT = "Entry";
     private static final String DATABASE_COLLECTION = "Journal";
@@ -33,6 +34,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvAuthor;
     TextView tvEntry;
     TextView timeTextView;
+
     FloatingActionButton fabSetView;
 
     @Override
@@ -76,13 +78,13 @@ private void DeleteData(){
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    Log.d(TAG, getString(R.string.entry_delete_snapshot));
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Error deleting document", e);
+                    Log.w(TAG, getString(R.string.error_document_delete_snapshot), e);
                 }
             });
         finish();

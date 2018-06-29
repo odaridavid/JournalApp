@@ -15,7 +15,6 @@ interface AdapterClickListener {
     void onEntryClicked(JournalEntry journalEntry);
 }
 public class JournalAdapter extends Adapter<JournalAdapter.TextCardViewHolder>implements AdapterClickListener {
-    private static final String TAG = JournalAdapter.class.getSimpleName();
 
     private AdapterClickListener clickListener;
     private List<JournalEntry> journalEntries;
@@ -70,9 +69,9 @@ public class JournalAdapter extends Adapter<JournalAdapter.TextCardViewHolder>im
         TextView textViewAuthor,textViewTitle,textViewText;
         private TextCardViewHolder(View itemView) {
             super(itemView);
-            textViewAuthor = itemView.findViewById(R.id.tvAuthor);
-            textViewTitle = itemView.findViewById(R.id.tvTitle);
-            textViewTitle = itemView.findViewById(R.id.tvDate);
+            textViewAuthor = itemView.findViewById(R.id.text_author_recycler_list);
+            textViewTitle = itemView.findViewById(R.id.text_title_recycler_list);
+            textViewTitle = itemView.findViewById(R.id.text_date_recycler_list);
 
     }
         void bind(final JournalEntry journalEntry, final int position) {

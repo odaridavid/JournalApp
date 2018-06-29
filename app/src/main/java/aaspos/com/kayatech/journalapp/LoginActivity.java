@@ -172,6 +172,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void signIn() {
+        //gets The Google Sign In intent to select email
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -463,10 +464,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void updateUI(FirebaseUser currentUser) {
         if (currentUser != null) {
             boolSuccessLogin = true;
-          //  startActivity(new Intent(current_activity.this,next_activity.class))
-
-
-
         }
     }
 
@@ -498,6 +495,7 @@ private void firebaseAuthGoogle(GoogleSignInAccount user){
 
 
     public void goToSignUp(View view) {
+        //If User Has No Account Redirect them to Register
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }

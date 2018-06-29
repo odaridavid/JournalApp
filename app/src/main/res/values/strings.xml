@@ -3,6 +3,7 @@
     <!--Activity Tags-->
     <string name="title_app_name">Journal App</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_signup">Sign Up</string>
 
     <!-- Strings related to login and Register-->
     <string name="prompt_email">Email</string>
@@ -14,7 +15,6 @@
     <string name="action_sign_up_short">Sign up</string>
 
     <!--Email Password Errors-->
-    <string name="error_invalid_charcters">Invalid Characters in Username</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -71,14 +71,16 @@
 
     <!--Card View Entries Delete-->
     <string name="entry_delete_msg">Deleted</string>
+    <string name="entry_delete_snapshot">Document Snapshot Deleted</string>
 
     <!--Entry errors-->
     <string name="error_document_failed">Error Writing To File</string>
+    <string name="error_document_delete_snapshot">Error Deleting Snapshot</string>
 
     <string name="error_title">ERROR</string>
 
 
     <!--Options Menu-->
-    <string name="option_delete">Delete</string>
+    <string name="action_delete">Delete</string>
 
 </resources>

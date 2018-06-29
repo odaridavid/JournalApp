@@ -54,16 +54,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
+
     private UserLoginTask mAuthTask = null;
     private static final String TAG = RegisterActivity.class.getSimpleName();
 
@@ -72,7 +63,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private EditText etPasswordView;
     private View viewProgressView;
     private View viewLoginFormView;
-    private EditText etUserName;
 
     //Authentication
     private FirebaseAuth mFirebaseAuthentication;
@@ -347,6 +337,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
+                        //When User Is Created Successfully
                         Log.d(TAG, getString(R.string.success_user));
                         FirebaseUser user = mFirebaseAuthentication.getCurrentUser();
                         updateUI(user);
@@ -373,6 +364,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             showProgress(false);
             successLogin = success;
             if (successLogin) {
+                //On Success New Intent Is Opened
                 Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -390,6 +382,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     }
 
     private void updateUI(FirebaseUser currentUser){
+        //Gets user instance and updates main thread
         if (currentUser != null){
             successLogin = true;
 

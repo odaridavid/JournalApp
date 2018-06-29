@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_app_name"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +32,12 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register"
+            android:label="@string/title_activity_signup"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EnterEntriesActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".DetailActivity"/>
     </application>
 
 </manifest>

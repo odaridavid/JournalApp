@@ -24,12 +24,11 @@ import java.util.Map;
 
 public class EnterEntriesActivity extends AppCompatActivity {
 
+    //Constants
     private static final String TAG = EnterEntriesActivity.class.getSimpleName();
-
     private static final String TITLE = "title";
     private static final String AUTHOR = "author";
     private static final String TEXT = "text";
-
     private static final String DATABASE_DOCUMENT = "Entry";
     private static final String DATABASE_COLLECTION = "Journal";
     private static final String TIMESTAMP = "timestamp";
@@ -85,17 +84,6 @@ public class EnterEntriesActivity extends AppCompatActivity {
                 }
             }
         });
-//        Toast toast = Toast.makeText(context, message, duration);
-//        View view = toast.getView();
-//
-////Gets the actual oval background of the Toast then sets the colour filter
-//        view.getBackground().setColorFilter(yourBackgroundColour, PorterDuff.Mode.SRC_IN);
-//
-////Gets the TextView from the Toast so it can be editted
-//        TextView text = view.findViewById(android.R.id.message);
-//        text.setTextColor(yourTextColour);
-//
-//        toast.show();
     }
 
     private void addJournalEntry() {
@@ -132,36 +120,7 @@ public class EnterEntriesActivity extends AppCompatActivity {
                                       });}
 
 
-
-
-
-
-
-
-
-
-
-
-//        dbReference = db.collection(DATABASE_COLLECTION).document(DATABASE_DOCUMENT);
-//        dbReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//
-//                    if (document.exists()) {
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                    } else {
-//                        Log.d(TAG, "No such document");
-//                    }
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
-
-
-    private void updateJournalEntry() {
+  private void updateJournalEntry() {
 
         dbReference = db.collection(DATABASE_COLLECTION).document(DATABASE_COLLECTION);
         dbReference.update(TITLE, etTitle.getText().toString());
@@ -174,10 +133,10 @@ public class EnterEntriesActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(EnterEntriesActivity.this,getString(R.string.entry_update_msg), Toast.LENGTH_SHORT);
                         View view = toast.getView();
 
-//Gets the actual oval background of the Toast then sets the colour filter
+                         //Gets the actual oval background of the Toast then sets the colour filter
                         view.getBackground().setColorFilter(Color.rgb(156,204,101), PorterDuff.Mode.SRC_IN);
 
-//Gets the TextView from the Toast so it can be editted
+                        //Gets the TextView from the Toast so it can be editted
                         TextView text = view.findViewById(android.R.id.message);
                         text.setTextColor(Color.BLACK);
 

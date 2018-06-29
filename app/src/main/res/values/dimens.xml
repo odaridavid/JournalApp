@@ -2,32 +2,64 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-
+<!--Login Activity-->
     <!-- Login Gradient Dimensions-->
-    <dimen name="padding_top">8dp</dimen>
-    <dimen name="padding_bottom">8dp</dimen>
-    <dimen name="padding_left">8dp</dimen>
-    <dimen name="padding_right">8dp</dimen>
+            <dimen name="padding_top">8dp</dimen>
+            <dimen name="padding_bottom">8dp</dimen>
+            <dimen name="padding_left">8dp</dimen>
+            <dimen name="padding_right">8dp</dimen>
 
     <!--Margin values for login -->
-    <dimen name="margin_top">32dp</dimen>
-    <dimen name="margin_bottom">48dp</dimen>
-    <dimen name="margin_left">32dp</dimen>
-    <dimen name="margin_right">32dp</dimen>
+            <dimen name="margin_top">32dp</dimen>
+            <dimen name="margin_bottom">48dp</dimen>
+            <dimen name="margin_bottom_progress">8dp</dimen>
+            <dimen name="margin_left">32dp</dimen>
+            <dimen name="margin_right">32dp</dimen>
 
     <!--Radius Dimensions for buttons-->
-    <dimen name="radius_top">32dp</dimen>
-    <dimen name="radius_bottom">32dp</dimen>
+            <dimen name="radius_top">32dp</dimen>
+            <dimen name="radius_bottom">32dp</dimen>
+
+<!--Login Activity-->
 
      <!--Card View -->
-    <dimen name="cardview_height">120dp</dimen>
-    <dimen name="margin_start">8dp</dimen>
-    <dimen name="cardview_radius">12dp</dimen>
+            <dimen name="cardview_height">120dp</dimen>
+            <dimen name="margin_start">8dp</dimen>
+            <dimen name="margin_end">8dp</dimen>
+
 
     <!--Drawable Padding-->
-    <dimen name="drawablePadding">2dp</dimen>
+            <dimen name="drawable_padding">2dp</dimen>
 
     <!--Login view stroke dimensions-->
-    <dimen name="layoutHeight">1dp</dimen>
+            <dimen name="layout_height_stroke">1dp</dimen>
+
+    <!--Floating Button-->
+            <dimen  name="floating_elevation">4dp</dimen>
+
+
+
+<!--Detail Activity-->
+                <dimen name="layout_height_author">50dp</dimen>
+                <dimen name="layout_height_entry">200dp</dimen>
+                <dimen name="margin_vertical_author_view">8dp</dimen>
+                <dimen name="margin_top_author_view">24dp</dimen>
+                <dimen name="margin_top_title_view">24dp</dimen>
+      <!--Card View-->
+                <dimen name="cardview_radius">12dp</dimen>
+
+<!-- Detail Activity -->
+
+<!-- Entries Activity -->
+                <dimen name="layout_height_entertext">60dp</dimen>
+                <dimen name="layout_height_entertext_body">310dp</dimen>
+<!-- Entries Activity -->
+
+<!--Recycler view list items-->
+
+                <dimen name="card_view_radius_recycler_list">8dp</dimen>
+                <dimen name="margin_top_items">5dp</dimen>
+                <dimen name="margin_start_recycler_item">6dp</dimen>
+<!--Recycler view list items-->
 
 </resources>
