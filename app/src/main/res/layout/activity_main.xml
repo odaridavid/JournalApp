@@ -10,7 +10,7 @@
         android:id="@+id/recycler_journal_items"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/padding_bottom">
+        >
 
 
     </android.support.v7.widget.RecyclerView>
