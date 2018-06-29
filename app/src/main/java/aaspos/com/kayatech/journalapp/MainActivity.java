@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     JournalEntry journalEntry;
 
 
-    //Firestore adapter
+    //Firestore Recycleradapter
     private FirestoreRecyclerAdapter<JournalEntry, journalViewHolder> adapter;
 
 
@@ -56,14 +56,20 @@ public class MainActivity extends AppCompatActivity {
         Query query = db.collection(DATABASE_COLLECTION)
                 .orderBy(TITLE, Query.Direction.ASCENDING);
 
+
+        //Journal Entry -model containing data
+        //query - how data will be retrieved,no sql database
         FirestoreRecyclerOptions<JournalEntry> options = new FirestoreRecyclerOptions.Builder<JournalEntry>()
                 .setQuery(query, JournalEntry.class)
                 .build();
 
+        //Adapter takes in model and view holder which is bound to layout
         adapter = new FirestoreRecyclerAdapter<JournalEntry, journalViewHolder>(options) {
             @Override
             protected void onBindViewHolder(journalViewHolder holder, int position, JournalEntry model) {
-                holder.setProductName(model.getTitle());
+                holder.setJournalEntryTitle(model.getTitle());
+                holder.setJournalEntryAuthor(model.getAuthor());
+             //   holder.setJournalEntryDate(model.getTimestamp().toString());
             }
 
 
@@ -97,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLinearLayout);
 
 
-
         addEntryStart();
 
     }
@@ -124,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+  //viewholder class - inner class for use by recycler view adapter to hold views
     class journalViewHolder extends RecyclerView.ViewHolder {
         private View view;
 
@@ -133,9 +138,17 @@ public class MainActivity extends AppCompatActivity {
             view = itemView;
         }
 
-        void setProductName(String productName) {
-            TextView textView = view.findViewById(R.id.text_title_recycler_list);
-            textView.setText(productName);
+        void setJournalEntryTitle(String journalEntryTitle) {
+            TextView tvTitleRecyclerList = view.findViewById(R.id.text_title_recycler_list);
+            tvTitleRecyclerList.setText(journalEntryTitle);
+
+        }
+        void setJournalEntryAuthor(String journalEntryAuthor){
+            TextView tvAuthorRecyclerList = view.findViewById(R.id.text_author_recycler_list);
+            tvAuthorRecyclerList.setText(journalEntryAuthor);
+        }
+        void setJournalEntryDate(String journalEntryDate) {
+            TextView tvDateRecyclerList = view.findViewById(R.id.text_date_recycler_list);
         }
     }
     @Override

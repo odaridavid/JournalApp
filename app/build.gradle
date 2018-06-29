@@ -9,7 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -30,13 +30,14 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
     //FireBase Dependancies
+    implementation 'com.google.firebase:firebase-auth:16.0.2'
     implementation 'com.google.firebase:firebase-database:16.0.1'
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-firestore:17.0.2'
-    implementation 'com.firebaseui:firebase-ui-database:4.1.0'
-    implementation "com.firebaseui:firebase-ui-firestore:3.0.0"
-    implementation "com.firebaseui:firebase-ui-auth:3.2.2"
-    implementation 'com.google.firebase:firebase-auth:16.0.2'
+   // implementation 'com.firebaseui:firebase-ui-database:4.1.0'
+    implementation "com.firebaseui:firebase-ui-firestore:4.1.0"
+  //  implementation "com.firebaseui:firebase-ui-auth:3.2.2"
+
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
     implementation 'com.android.support:design:27.1.1'
 

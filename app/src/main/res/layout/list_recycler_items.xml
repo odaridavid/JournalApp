@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_title_recycler_list"
                 android:layout_marginStart="@dimen/margin_start"
-                android:layout_marginTop="@dimen/margin_top_items"
+
                 android:text="@string/entry_author"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorPrimary" />
@@ -41,10 +41,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_author_recycler_list"
                 android:layout_marginStart="@dimen/margin_start_recycler_item"
-                android:layout_marginTop="@dimen/margin_top_items"
+
                 android:background="@color/colorAccent"
-                android:paddingEnd="@dimen/padding_right"
-                android:paddingStart="@dimen/padding_right"
+
                 android:text="@string/entry_date"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
                 android:textStyle="bold" />
