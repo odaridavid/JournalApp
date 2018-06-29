@@ -21,7 +21,8 @@
 
      <!--Card View -->
     <dimen name="cardview_height">120dp</dimen>
-    <dimen name="margin_start">5dp</dimen>
+    <dimen name="margin_start">8dp</dimen>
+    <dimen name="cardview_radius">12dp</dimen>
 
     <!--Drawable Padding-->
     <dimen name="drawablePadding">2dp</dimen>

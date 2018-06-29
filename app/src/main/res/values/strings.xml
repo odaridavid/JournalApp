@@ -78,4 +78,7 @@
     <string name="error_title">ERROR</string>
 
 
+    <!--Options Menu-->
+    <string name="option_delete">Delete</string>
+
 </resources>

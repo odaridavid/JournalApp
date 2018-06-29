@@ -3,6 +3,10 @@ package aaspos.com.kayatech.journalapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
+import java.util.Date;
+
 public class JournalEntry implements Parcelable {
 
 
@@ -41,10 +45,16 @@ public class JournalEntry implements Parcelable {
         this.id = id;
     }
 
+    @ServerTimestamp
+    public Date getTimestamp() { return mTimestamp; }
+
+    public void setTimestamp(Date timestamp) { mTimestamp = timestamp; }
+
     String title;
     String author;
     String text;
     String id;
+    private Date mTimestamp;
 
 
     protected JournalEntry(Parcel parcel){
