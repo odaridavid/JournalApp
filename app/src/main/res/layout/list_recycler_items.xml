@@ -9,7 +9,9 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="@dimen/card_view_radius_recycler_list">
+        card_view:cardCornerRadius="@dimen/card_view_radius_recycler_list"
+        android:paddingBottom="@dimen/padding_bottom"
+        android:layout_marginBottom="@dimen/margin_bottom_recycler_item">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,8 +22,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_start"
+                android:paddingTop="@dimen/padding_top"
                 android:text="@string/entry_title"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
@@ -31,6 +36,9 @@
                 android:layout_below="@+id/text_title_recycler_list"
                 android:layout_marginStart="@dimen/margin_start"
                 android:text="@string/entry_author"
+                android:textSize="18sp"
+                android:layout_marginTop="@dimen/margin_start_recycler_item"
+                android:layout_marginBottom="@dimen/margin_bottom_recycler_item"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorPrimary" />
 
