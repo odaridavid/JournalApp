@@ -2,16 +2,30 @@ package aaspos.com.kayatech.journalapp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
 
 public class JournalEntry implements Parcelable {
 
+    String title;
+    String author;
+    String text;
+    String id;
+    private Date mTimestamp;
+
+    @Exclude
+    private String key;
 
     public JournalEntry(){
 
+    }
+    public <T extends JournalEntry> T withId(@NonNull final String id) {
+        this.key = id;
+        return (T) this;
     }
     public String getTitle() {
         return title;
@@ -50,11 +64,7 @@ public class JournalEntry implements Parcelable {
 
     public void setTimestamp(Date timestamp) { mTimestamp = timestamp; }
 
-    String title;
-    String author;
-    String text;
-    String id;
-    private Date mTimestamp;
+
 
 
     protected JournalEntry(Parcel parcel){

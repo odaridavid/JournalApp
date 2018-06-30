@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
-        android:progressBackgroundTint="@color/colorAccent"
+        android:progressBackgroundTint="@color/tint_add"
         android:visibility="gone" />
 
     <ScrollView

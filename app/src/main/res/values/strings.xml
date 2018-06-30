@@ -78,6 +78,8 @@
     <string name="error_document_delete_snapshot">Error Deleting Snapshot</string>
 
     <string name="error_title">ERROR</string>
+    <string name="label_delete">DELETE</string>
+
 
 
     <!--Options Menu-->

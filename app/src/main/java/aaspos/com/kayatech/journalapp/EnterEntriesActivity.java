@@ -13,13 +13,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
+
 import java.util.Map;
 
 public class EnterEntriesActivity extends AppCompatActivity {
@@ -29,6 +33,7 @@ public class EnterEntriesActivity extends AppCompatActivity {
     private static final String TITLE = "title";
     private static final String AUTHOR = "author";
     private static final String TEXT = "text";
+    private static final String USER_ID = "current_user";
     private static final String DATABASE_DOCUMENT = "Entry";
     private static final String DATABASE_COLLECTION = "Journal";
     private static final String TIMESTAMP = "timestamp";
@@ -44,6 +49,10 @@ public class EnterEntriesActivity extends AppCompatActivity {
     EditText etTextEntry;
     boolean boolUpdate = false;
     FloatingActionButton fabAddNote;
+    FirebaseAuth firebaseAuth;
+    String userId;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +63,12 @@ public class EnterEntriesActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+
+
         db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        userId = firebaseAuth.getCurrentUser().getUid();
+
         dbReference = db.collection(DATABASE_COLLECTION).document(DATABASE_DOCUMENT);
 
         fabAddNote = findViewById(R.id.fab_add_notes);
@@ -91,8 +105,9 @@ public class EnterEntriesActivity extends AppCompatActivity {
         Map< String, Object > newJournalEntry = new HashMap< >();
         newJournalEntry.put(TITLE, etTitle.getText().toString());
         newJournalEntry.put(AUTHOR, etAuthor.getText().toString());
+        newJournalEntry.put(USER_ID,userId);
         newJournalEntry.put(TEXT,etTextEntry.getText().toString());
-        newJournalEntry.put("timestamp", FieldValue.serverTimestamp());
+        newJournalEntry.put(TIMESTAMP, FieldValue.serverTimestamp());
         db.collection(DATABASE_COLLECTION).add(newJournalEntry)
                 .addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
                     @Override
@@ -148,11 +163,7 @@ public class EnterEntriesActivity extends AppCompatActivity {
     });
         finish();
 }
-private JournalEntry getData() {
-    journalEntry = new JournalEntry();
-    journalEntry.setTitle(etTitle.getText().toString());
-    journalEntry.setAuthor(etAuthor.getText().toString());
-    journalEntry.setText(etTextEntry.getText().toString());
-    journalEntry.setId(getID);
-    return journalEntry;
-}}
+
+
+
+}
