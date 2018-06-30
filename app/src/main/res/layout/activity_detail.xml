@@ -48,7 +48,7 @@
             android:layout_height="@dimen/layout_height_entry"
             android:gravity="top"
             android:padding="@dimen/activity_vertical_margin"
-            android:text="@string/label_text_entry"
+            android:text="@string/label_text_received"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

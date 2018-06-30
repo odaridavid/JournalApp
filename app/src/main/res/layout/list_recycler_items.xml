@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="@dimen/card_view_radius_recycler_list"
         android:paddingBottom="@dimen/padding_bottom"
+        android:layout_marginTop="@dimen/margin_start"
         android:layout_marginBottom="@dimen/margin_bottom_recycler_item"
         android:layout_marginStart="@dimen/margin_start"
         android:layout_marginEnd="@dimen/margin_start">
@@ -26,37 +27,37 @@
                 android:paddingTop="@dimen/padding_top"
                 android:text="@string/entry_title"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/textColorBlack"
                 android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/textColorBlack" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_author_recycler_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_title_recycler_list"
-
-                android:text="@string/entry_author"
-                android:textSize="18sp"
-                android:layout_marginTop="@dimen/margin_start_recycler_item"
                 android:layout_marginBottom="@dimen/margin_bottom_recycler_item"
+                android:layout_marginTop="@dimen/margin_start_recycler_item"
+                android:text="@string/entry_author"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                android:textColor="@color/cardColor" />
-<ScrollView
-    android:layout_below="@+id/text_author_recycler_list"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/layout_height_entertext">
-            <TextView
-                android:id="@+id/text_entry_recycler_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top_items"
-                android:background="@color/colorAccent"
-                android:text="@string/entry_date"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
-                android:textStyle="bold" />
+                android:textColor="@color/cardColor"
+                android:textSize="18sp" />
 
-</ScrollView>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_description"
+                android:layout_below="@+id/text_author_recycler_list">
+
+                <TextView
+                    android:id="@+id/text_entry_recycler_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_description"
+                    android:background="@color/colorAccent"
+
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
+                    android:textStyle="bold" />
+
+            </ScrollView>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

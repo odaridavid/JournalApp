@@ -51,6 +51,7 @@
     <string name="label_title">Title</string>
     <string name="label_author">Author</string>
     <string name="label_text_entry">Enter Text</string>
+    <string name="label_text_received">Text Received</string>
 
     <!--Dummy Data-->
     <string name="entry_author">David Odari</string>

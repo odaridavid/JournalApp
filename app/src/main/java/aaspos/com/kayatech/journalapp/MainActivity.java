@@ -8,7 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,17 +16,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.DocumentReference;
+
+
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
+
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
                 holder.setJournalEntryTitle(model.getTitle());
                 holder.setJournalEntryAuthor(model.getAuthor());
                 holder.setJournalEntryText(model.getText());
+
+
             }
 
 
@@ -138,12 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(enterEntries);
             }
         });
-        jadapter = new JournalAdapter(this, journalEntryList, db, new AdapterClickListener() {
-            @Override
-            public void onEntryClicked(JournalEntry journalEntry) {
-                getDocumentsFromCollection();
-            }
-        });
+
     }
 
 
@@ -154,119 +154,96 @@ public class MainActivity extends AppCompatActivity {
         journalViewHolder(View itemView) {
             super(itemView);
             view = itemView;
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DocumentReference id = db.collection(DATABASE_COLLECTION).document();
+                      String data =  id.getId();
+
+                   JournalEntry j  = new JournalEntry();
+                    String h = j.getText();
+                    String f = j.getAuthor();
+                    String d = j.getTitle();
+                    Intent yt = new Intent(MainActivity.this, DetailActivity.class);
+                    yt.putExtra(Intent.EXTRA_TEXT,d);
+                    yt.putExtra(Intent.EXTRA_TEXT,f);
+                    yt.putExtra(Intent.EXTRA_TEXT,h);
+
+                    MainActivity.this.startActivity(yt);
+                     //Toast.makeText(MainActivity.this,g,Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         void setJournalEntryTitle(String journalEntryTitle) {
-            TextView tvTitleRecyclerList = view.findViewById(R.id.text_title_recycler_list);
-            tvTitleRecyclerList.setText(journalEntryTitle);
+            if (!journalEntryTitle.isEmpty()) {
+                TextView tvTitleRecyclerList = view.findViewById(R.id.text_title_recycler_list);
+                tvTitleRecyclerList.setText(journalEntryTitle);
+            }
 
         }
 
         void setJournalEntryAuthor(String journalEntryAuthor) {
-            TextView tvAuthorRecyclerList = view.findViewById(R.id.text_author_recycler_list);
-            tvAuthorRecyclerList.setText(journalEntryAuthor);
+            if (!journalEntryAuthor.isEmpty()) {
+                TextView tvAuthorRecyclerList = view.findViewById(R.id.text_author_recycler_list);
+                tvAuthorRecyclerList.setText(journalEntryAuthor);
+            }
         }
 
         void setJournalEntryText(String journalEntryText) {
-            TextView tvTextRecyclerList = view.findViewById(R.id.text_entry_recycler_list);
-            tvTextRecyclerList.setText(journalEntryText);
+            if (!journalEntryText.isEmpty()) {
+                TextView tvTextRecyclerList = view.findViewById(R.id.text_entry_recycler_list);
+                tvTextRecyclerList.setText(journalEntryText);
+            }
         }
-
         @Override
         public void onClick(View v) {
             clickListener.onItemClick(getAdapterPosition(), v);
         }
     }
 
-    public void setOnItemClickListener(ClickListener clickListener) {
 
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_signout) {
-            signOut();
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            return super.onCreateOptionsMenu(menu);
         }
-        return super.onOptionsItemSelected(item);
-    }
 
-    public void signOut() {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == R.id.action_signout) {
+                signOut();
+            }
+            return super.onOptionsItemSelected(item);
+        }
 
-        Intent out = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(out);
-    }
+        public void signOut() {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            mAuth.signOut();
+            Intent out = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(out);
+        }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
+        @Override
+        protected void onStart() {
+            super.onStart();
+            adapter.startListening();
 
-    }
+        }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
+        @Override
+        protected void onStop() {
+            super.onStop();
+            adapter.stopListening();
 
-    }
-
-    public void getDocumentsFromCollection() {
-//        db.collection(DATABASE_COLLECTION).get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (DocumentSnapshot snap : task.getResult()) {
-//                                JournalEntry model = snap.toObject(JournalEntry.class).withId(snap.getId());
+        }
 //
-//                                documents.add(model);
-//
-//
-//                                JournalAdapter recyclerViewAdapter = new JournalAdapter(documents, getActivity(), );
-//
-//
-//                                recyclerViewAdapter.setOnItemClickListener(new JournalAdapter().ClickListener()
-//                                {
-//                                    @Override
-//                                    public void onItemClick ( int position, View v){
-//                                    Log.d(TAG, "onItemClick position: " + position);
-//
-//                                    // Go to the details page for the selected       product
-//                                    Intent i = new Intent(MainActivity.this, DetailActivity.class);
-//                                    i.putExtra(DetailActivity.VALUES, journalEntry);
-//                                    startActivity(i);
-//
-//                                }
-//                                }
-//
-//                                mRecyclerView.setAdapter(recyclerViewAdapter);
-//                                mRecyclerView.notifyDataSetChanged();
-//                            }
-//
-//                        } else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//        db.collection(DATABASE_COLLECTION)
-//                .addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-//
-//
-//                    }
-//                });
     }
 
 
-}
+//}
+
+

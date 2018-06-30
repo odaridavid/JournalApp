@@ -44,36 +44,53 @@ public class DetailActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         journalEntry = getIntent().getParcelableExtra(VALUES);
+        final String id = db.collection(DATABASE_COLLECTION).document().getId();
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            String Title = intent.getStringExtra(Intent.EXTRA_TEXT);
+            String Author= intent.getStringExtra( Intent.EXTRA_TEXT);
+            String Text = intent.getStringExtra(Intent.EXTRA_TEXT);
+            tvTitle = findViewById(R.id.text_title_view);
+            tvAuthor = findViewById(R.id.text_author_view);
+            tvEntry = findViewById(R.id.edit_text_entry);
+
+            tvTitle.setText(Title);
+            tvAuthor.setText(Author);
+            tvEntry.setText(Text);
+
+        }
         //add timestamp later
-        tvTitle = findViewById(R.id.text_title_view);
-        tvAuthor = findViewById(R.id.text_author_view);
-        tvEntry = findViewById(R.id.edit_text_entry);
 
-        updateUI(journalEntry);
-}
-
-void updateUI(final JournalEntry journalEntry){
-        tvTitle.setText(journalEntry.getTitle());
-        tvAuthor.setText(journalEntry.getAuthor());
-        tvEntry.setText(journalEntry.getText());
-        getID = journalEntry.getId();
+         fabSetView = findViewById(R.id.fab_edit_entry);
 
         fabSetView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DetailActivity.this, EnterEntriesActivity.class);
-                intent.putExtra(EnterEntriesActivity.VALUES, journalEntry);
+            //    if (id == FirebaseFirestore.getInstance().toString().){}
+               // intent.putExtra(EnterEntriesActivity.VALUES, journalEntry);
                 startActivity(intent);
             }
         });
 
 }
 
-private void DeleteData(){
+//void updateUI(final JournalEntry journalEntry){
+//        tvTitle.setText(journalEntry.getTitle());
+//        tvAuthor.setText(journalEntry.getAuthor());
+//        tvEntry.setText(journalEntry.getText());
+//        getID = journalEntry.getId();
+//
 
+//
+//}
+
+private void DeleteData(){
+    DocumentReference ref = db.collection(DATABASE_COLLECTION).document();
+    String myId = ref.getId();
     db.collection(DATABASE_COLLECTION)
-            .document(DATABASE_DOCUMENT)
+            .document(myId)
             .delete()
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

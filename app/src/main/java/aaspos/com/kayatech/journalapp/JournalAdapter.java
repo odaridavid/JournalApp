@@ -1,38 +1,31 @@
 package aaspos.com.kayatech.journalapp;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-interface AdapterClickListener {
-    void onEntryClicked(JournalEntry journalEntry);
-}
-public class JournalAdapter extends Adapter<JournalAdapter.TextCardViewHolder>implements AdapterClickListener {
 
-    private AdapterClickListener clickListener;
-    private List<JournalEntry> journalEntries;
-    private Context context;
+public class JournalAdapter extends Adapter<JournalAdapter.TextCardViewHolder> {
+    public static ClickListener clickListenerInterface;
+    private Activity context;
     private FirebaseFirestore firestoreDB;
-    ClickListener clickListenerInterfac;
+    private List<JournalEntry> journalEntries;
 
-    public JournalAdapter(Context context, List<JournalEntry> journalEntries, FirebaseFirestore firestoreDB, AdapterClickListener clickListerner) {
-        this.context = context;
-        this.clickListener = clickListerner;
-        this.firestoreDB = firestoreDB;
-        swapJournalInformation(journalEntries);
 
+    public JournalAdapter(List<JournalEntry> list, Activity ctx,   FirebaseFirestore firestore) {
+        journalEntries = list;
+        context = ctx;
+        firestoreDB = firestore;
     }
 
     @NonNull
@@ -69,24 +62,6 @@ public class JournalAdapter extends Adapter<JournalAdapter.TextCardViewHolder>im
         this.notifyDataSetChanged();
     }
 
-    @Override
-    public void onEntryClicked(JournalEntry journalEntry) {
-
-    }
-    public void removeItem(int position) {
-        journalEntries.remove(position);
-        // notify the item removed by position
-        // to perform recycler view delete animations
-        // NOTE: don't call notifyDataSetChanged()
-        notifyItemRemoved(position);
-    }
-
-    public void restoreItem(JournalEntry item, int position) {
-        journalEntries.add(position, item);
-        // notify item added by position
-        notifyItemInserted(position);
-    }
-
 
     public class  TextCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -106,25 +81,22 @@ public class JournalAdapter extends Adapter<JournalAdapter.TextCardViewHolder>im
             textViewText.setText(journalEntry.getText());
             textViewAuthor.setText(journalEntry.getAuthor());
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickListener.onEntryClicked(journalEntries.get(position));
-                    Intent openNewActivity = new Intent(context, DetailActivity.class);
-                    openNewActivity.putExtra("title", journalEntry.getTitle());
-                    openNewActivity.putExtra("author", journalEntry.getAuthor());
-                    openNewActivity.putExtra("text", journalEntry.getText());
-                    context.startActivity(openNewActivity);
-                }
-            });
         }
 
 
         @Override
         public void onClick(View v) {
-            clickListenerInterfac.onItemClick(getAdapterPosition(), v);
+            clickListenerInterface.onItemClick(getAdapterPosition(), v);
         }
+
 
     }
 
+    public void setOnItemClickListener(ClickListener clickListener) {
+        JournalAdapter.clickListenerInterface = clickListener;
+        }
+
+    public interface ClickListener {
+        void onItemClick(int position ,View v);
+    }
 }

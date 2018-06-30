@@ -57,10 +57,11 @@
 
 <!--Recycler view list items-->
 
-                <dimen name="card_view_radius_recycler_list">8dp</dimen>
+                <dimen name="card_view_radius_recycler_list">6dp</dimen>
+                <dimen name="text_description">4dp</dimen>
                 <dimen name="margin_top_items">5dp</dimen>
                 <dimen name="margin_start_recycler_item">12dp</dimen>
-                <dimen name="margin_bottom_recycler_item">24dp</dimen>
+                <dimen name="margin_bottom_recycler_item">12dp</dimen>
 <!--Recycler view list items-->
 
                 <dimen name="padd_10">10dp</dimen>
