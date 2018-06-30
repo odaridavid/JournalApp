@@ -3,27 +3,24 @@ package aaspos.com.kayatech.journalapp;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.HashMap;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class EnterEntriesActivity extends AppCompatActivity {
@@ -34,15 +31,17 @@ public class EnterEntriesActivity extends AppCompatActivity {
     private static final String AUTHOR = "author";
     private static final String TEXT = "text";
     private static final String USER_ID = "current_user";
+    private static final String PUSH_KEY = "push";
     private static final String DATABASE_DOCUMENT = "Entry";
     private static final String DATABASE_COLLECTION = "Journal";
     private static final String TIMESTAMP = "timestamp";
     public static final String VALUES = "text_value";
 
+
     private FirebaseFirestore db;
     private JournalEntry journalEntry;
     DocumentReference dbReference;
-    String getID;
+
 
     EditText etTitle;
     EditText etAuthor;
@@ -50,13 +49,15 @@ public class EnterEntriesActivity extends AppCompatActivity {
     boolean boolUpdate = false;
     FloatingActionButton fabAddNote;
     FirebaseAuth firebaseAuth;
-    String userId;
-
+    private String userId;
+    private String docId;
+    private String docIdRef;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_enter_entries);
         try {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -80,12 +81,15 @@ public class EnterEntriesActivity extends AppCompatActivity {
         Intent parentIntent = getIntent();
 
         if (parentIntent.hasExtra(VALUES)) {
+
             boolUpdate = true;
             journalEntry = getIntent().getParcelableExtra(VALUES);
             etTitle.setText(journalEntry.getTitle());
             etAuthor.setText(journalEntry.getAuthor());
             etTextEntry.setText(journalEntry.getText());
-            getID = journalEntry.getId();
+
+            journalEntry.setId(db.collection(DATABASE_COLLECTION).document().getId());
+            docIdRef = journalEntry.getId();
 
         }
         fabAddNote.setOnClickListener(new View.OnClickListener() {
@@ -101,22 +105,30 @@ public class EnterEntriesActivity extends AppCompatActivity {
     }
 
     private void addJournalEntry() {
+        //Document id
+//        journalEntry.setId(db.collection(DATABASE_COLLECTION).document().getId());
+//        String docRefid = journalEntry.getId();
+        String idBefore = db.collection(DATABASE_COLLECTION).document().getId();
+        JournalEntry journalE = new JournalEntry();
+        journalE.setId(idBefore);
+        String idAfter = journalE.getId();
+        Map<String, Object> newJournalEntry = new HashMap<>();
 
-        Map< String, Object > newJournalEntry = new HashMap< >();
         newJournalEntry.put(TITLE, etTitle.getText().toString());
         newJournalEntry.put(AUTHOR, etAuthor.getText().toString());
-        newJournalEntry.put(USER_ID,userId);
-        newJournalEntry.put(TEXT,etTextEntry.getText().toString());
+       // newJournalEntry.put(USER_ID, idAfter);
+        newJournalEntry.put(PUSH_KEY, idAfter);
+        newJournalEntry.put(TEXT, etTextEntry.getText().toString());
         newJournalEntry.put(TIMESTAMP, FieldValue.serverTimestamp());
         db.collection(DATABASE_COLLECTION).add(newJournalEntry)
-                .addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast toast = Toast.makeText(EnterEntriesActivity.this,getString(R.string.entry_created), Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(EnterEntriesActivity.this, getString(R.string.entry_created), Toast.LENGTH_SHORT);
                         View view = toast.getView();
 
 //Gets the actual oval background of the Toast then sets the colour filter
-                        view.getBackground().setColorFilter(Color.rgb(156,204,101), PorterDuff.Mode.SRC_IN);
+                        view.getBackground().setColorFilter(Color.rgb(156, 204, 101), PorterDuff.Mode.SRC_IN);
 
 //Gets the TextView from the Toast so it can be editted
                         TextView text = view.findViewById(android.R.id.message);
@@ -126,30 +138,34 @@ public class EnterEntriesActivity extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
-                                          @Override
-                                          public void onFailure(@NonNull Exception e) {
-                                              Toast.makeText(EnterEntriesActivity.this, getString(R.string.error_title) + e.toString(),
-                                                      Toast.LENGTH_SHORT).show();
-                                              Log.d(TAG, e.toString());
-                                          }
-                                      });}
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EnterEntriesActivity.this, getString(R.string.error_title) + e.toString(),
+                                Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
+                    }
+                });
+    }
 
 
-  private void updateJournalEntry() {
+    private void updateJournalEntry() {
+        journalEntry.setId(db.collection(DATABASE_COLLECTION).document().getId());
+        docId = journalEntry.getId();
 
-        dbReference = db.collection(DATABASE_COLLECTION).document(DATABASE_COLLECTION);
+        dbReference = db.collection(DATABASE_COLLECTION).document(docId);
+
         dbReference.update(TITLE, etTitle.getText().toString());
         dbReference.update(AUTHOR, etAuthor.getText().toString());
         dbReference.update(TIMESTAMP, FieldValue.serverTimestamp());
         dbReference.update(TEXT, etTextEntry.getText().toString())
-                .addOnSuccessListener(new OnSuccessListener< Void >() {
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast toast = Toast.makeText(EnterEntriesActivity.this,getString(R.string.entry_update_msg), Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(EnterEntriesActivity.this, getString(R.string.entry_update_msg), Toast.LENGTH_SHORT);
                         View view = toast.getView();
 
-                         //Gets the actual oval background of the Toast then sets the colour filter
-                        view.getBackground().setColorFilter(Color.rgb(156,204,101), PorterDuff.Mode.SRC_IN);
+                        //Gets the actual oval background of the Toast then sets the colour filter
+                        view.getBackground().setColorFilter(Color.rgb(156, 204, 101), PorterDuff.Mode.SRC_IN);
 
                         //Gets the TextView from the Toast so it can be editted
                         TextView text = view.findViewById(android.R.id.message);
@@ -159,11 +175,18 @@ public class EnterEntriesActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(EnterEntriesActivity.this, MainActivity.class);
                         startActivity(intent);
-    }
-    });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EnterEntriesActivity.this, getString(R.string.error_title) + e.toString(),
+                                Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
+                    }
+                });
         finish();
-}
-
+    }
 
 
 }

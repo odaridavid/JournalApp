@@ -17,8 +17,18 @@ public class JournalEntry implements Parcelable {
     String id;
     private Date mTimestamp;
 
-    @Exclude
     private String key;
+
+    @Exclude
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+
 
     public JournalEntry(){
 
@@ -56,6 +66,7 @@ public class JournalEntry implements Parcelable {
     }
 
     public void setId(String id) {
+
         this.id = id;
     }
 

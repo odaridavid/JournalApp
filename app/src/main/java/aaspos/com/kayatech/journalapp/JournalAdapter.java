@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -39,9 +40,9 @@ public class JournalAdapter extends Adapter<JournalAdapter.TextCardViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TextCardViewHolder holder, int position) {
-        final int itemPos = position;
-        final JournalEntry model = journalEntries.get(position);
+    public void onBindViewHolder(@NonNull TextCardViewHolder holder, final int position) {
+
+
 
         holder.bind(journalEntries.get(position),position);
 
@@ -57,19 +58,13 @@ public class JournalAdapter extends Adapter<JournalAdapter.TextCardViewHolder> {
         return journalEntries.size();
     }
 
-    public void swapJournalInformation(List<JournalEntry> journalEntries) {
-        this.journalEntries = journalEntries;
-        this.notifyDataSetChanged();
-    }
-
-
     public class  TextCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView textViewAuthor,textViewTitle,textViewText;
-
+          View view;
         private TextCardViewHolder(View itemView) {
             super(itemView);
-
+            view = itemView;
             textViewTitle = itemView.findViewById(R.id.text_title_recycler_list);
             textViewTitle = itemView.findViewById(R.id.text_author_recycler_list);
 
@@ -81,6 +76,7 @@ public class JournalAdapter extends Adapter<JournalAdapter.TextCardViewHolder> {
             textViewText.setText(journalEntry.getText());
             textViewAuthor.setText(journalEntry.getAuthor());
 
+
         }
 
 
@@ -91,10 +87,6 @@ public class JournalAdapter extends Adapter<JournalAdapter.TextCardViewHolder> {
 
 
     }
-
-    public void setOnItemClickListener(ClickListener clickListener) {
-        JournalAdapter.clickListenerInterface = clickListener;
-        }
 
     public interface ClickListener {
         void onItemClick(int position ,View v);

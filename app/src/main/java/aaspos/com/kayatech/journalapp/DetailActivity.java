@@ -12,10 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class DetailActivity extends AppCompatActivity {
     //Constants
@@ -29,12 +33,12 @@ public class DetailActivity extends AppCompatActivity {
 
     DocumentReference dbReference;
     String getID;
-
+    String docId;
     TextView tvTitle;
     TextView tvAuthor;
     TextView tvEntry;
     TextView timeTextView;
-
+    boolean boolUpdate = false;
     FloatingActionButton fabSetView;
 
     @Override
@@ -43,26 +47,33 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         db = FirebaseFirestore.getInstance();
-        journalEntry = getIntent().getParcelableExtra(VALUES);
-        final String id = db.collection(DATABASE_COLLECTION).document().getId();
+
+
+
+        tvTitle = findViewById(R.id.text_title_view);
+        tvAuthor = findViewById(R.id.text_author_view);
+        tvEntry = findViewById(R.id.edit_text_entry);
+        fabSetView = findViewById(R.id.fab_edit_entry);
 
         Intent intent = getIntent();
+       // String restaurantId = getIntent().getExtras().getString(Intent.EXTRA_KEY_EVENT);
         if (intent != null) {
-            String Title = intent.getStringExtra(Intent.EXTRA_TEXT);
-            String Author= intent.getStringExtra( Intent.EXTRA_TEXT);
-            String Text = intent.getStringExtra(Intent.EXTRA_TEXT);
-            tvTitle = findViewById(R.id.text_title_view);
-            tvAuthor = findViewById(R.id.text_author_view);
-            tvEntry = findViewById(R.id.edit_text_entry);
 
-            tvTitle.setText(Title);
-            tvAuthor.setText(Author);
-            tvEntry.setText(Text);
+            boolUpdate = true;
+            String idBefore = db.collection(DATABASE_COLLECTION).document().getId();
+            JournalEntry journalE = new JournalEntry();
+            journalE.setId(idBefore);
+            String idAfter = journalE.getId();
+            Bundle extras = getIntent().getExtras();
+            if(extras !=null)
+            {
+                String value = extras.getString(idAfter);
+            }
+
 
         }
         //add timestamp later
 
-         fabSetView = findViewById(R.id.fab_edit_entry);
 
         fabSetView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +100,7 @@ public class DetailActivity extends AppCompatActivity {
 private void DeleteData(){
     DocumentReference ref = db.collection(DATABASE_COLLECTION).document();
     String myId = ref.getId();
+
     db.collection(DATABASE_COLLECTION)
             .document(myId)
             .delete()

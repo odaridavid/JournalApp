@@ -41,7 +41,7 @@
 
 <!--Detail Activity-->
                 <dimen name="layout_height_author">50dp</dimen>
-                <dimen name="layout_height_entry">200dp</dimen>
+                <dimen name="layout_height_entry">100dp</dimen>
                 <dimen name="margin_vertical_author_view">8dp</dimen>
                 <dimen name="margin_top_author_view">24dp</dimen>
                 <dimen name="margin_top_title_view">24dp</dimen>

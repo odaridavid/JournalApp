@@ -21,6 +21,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db;
     RecyclerView mRecyclerView;
     JournalEntry journalEntry;
+    String docId;
 
     ClickListener clickListener;
     private FirebaseAuth mFirebaseAuthentication;
@@ -86,13 +88,36 @@ public class MainActivity extends AppCompatActivity {
         //Adapter takes in model and view holder which is bound to layout
         adapter = new FirestoreRecyclerAdapter<JournalEntry, journalViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(journalViewHolder holder, int position, JournalEntry model) {
+            protected void onBindViewHolder(journalViewHolder holder, final int position, JournalEntry model) {
                 holder.setIsRecyclable(false);
 
 
                 holder.setJournalEntryTitle(model.getTitle());
                 holder.setJournalEntryAuthor(model.getAuthor());
                 holder.setJournalEntryText(model.getText());
+
+                holder.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Passing Data To Details
+                        //Database Id
+                        String idBefore = db.collection(DATABASE_COLLECTION).document().getId();
+                        JournalEntry journalE = new JournalEntry();
+                        journalE.setId(idBefore);
+                        String idAfter = journalE.getId();
+
+                        Intent yt = new Intent(MainActivity.this, DetailActivity.class);
+
+                         yt.putExtra(idAfter,"author");
+                         yt.putExtra(idAfter,"text");
+                         yt.putExtra(idAfter,"title");
+//                        yt.putExtra(Intent.EXTRA_KEY_EVENT,journalEntryList.get(position).getAuthor());
+//                        yt.putExtra(Intent.EXTRA_REFERRER,journalEntryList.get(position).getTitle());
+
+                       MainActivity.this.startActivity(yt);
+                        //Toast.makeText(MainActivity.this,g,Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
             }
@@ -155,25 +180,7 @@ public class MainActivity extends AppCompatActivity {
             super(itemView);
             view = itemView;
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DocumentReference id = db.collection(DATABASE_COLLECTION).document();
-                      String data =  id.getId();
 
-                   JournalEntry j  = new JournalEntry();
-                    String h = j.getText();
-                    String f = j.getAuthor();
-                    String d = j.getTitle();
-                    Intent yt = new Intent(MainActivity.this, DetailActivity.class);
-                    yt.putExtra(Intent.EXTRA_TEXT,d);
-                    yt.putExtra(Intent.EXTRA_TEXT,f);
-                    yt.putExtra(Intent.EXTRA_TEXT,h);
-
-                    MainActivity.this.startActivity(yt);
-                     //Toast.makeText(MainActivity.this,g,Toast.LENGTH_SHORT).show();
-                }
-            });
         }
 
         void setJournalEntryTitle(String journalEntryTitle) {
@@ -197,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 tvTextRecyclerList.setText(journalEntryText);
             }
         }
+
         @Override
         public void onClick(View v) {
             clickListener.onItemClick(getAdapterPosition(), v);
