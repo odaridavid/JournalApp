@@ -5,7 +5,7 @@
     <!--<color name="colorAccent">#F50057</color>-->
     <!--<color name="colorPrimary">#7B1FA2</color>-->
     <color name="colorPrimary">#111</color>
-    <color name="colorPrimaryDark">#FFF</color>
+    <color name="colorPrimaryDark">#444</color>
     <color name="colorAccent">#ea3732</color>
     <color name="bg_row_background">#fa315b</color>
     <color name="layout_back_col">#FFF</color>
