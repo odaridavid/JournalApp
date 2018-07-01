@@ -2,6 +2,7 @@ package aaspos.com.kayatech.journalapp;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db;
     RecyclerView mRecyclerView;
     JournalEntry journalEntry;
-    String docId;
+    SharedPreferenceManager sharedPreferenceManager;
 
     ClickListener clickListener;
     private FirebaseAuth mFirebaseAuthentication;
@@ -55,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     //Firestore Recycleradapter
     private FirestoreRecyclerAdapter<JournalEntry, journalViewHolder> adapter;
     String userId;
-    List<JournalEntry> documents = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,17 +66,27 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         //Get current user
         mFirebaseAuthentication = FirebaseAuth.getInstance();
-        userId = mFirebaseAuthentication.getCurrentUser().getUid();
+
+
         //methods
         activityBegin();
-        firestoreRecycler();
+        if (mFirebaseAuthentication.getCurrentUser() != null) {
+            firestoreRecycler();
+        }else{
+            Toast.makeText(MainActivity.this,"Sign Up",Toast.LENGTH_LONG).show();
+            Intent Login = new Intent(MainActivity.this,LoginActivity.class);
+            startActivity(Login);
+        }
 
     }
 
 
     private void firestoreRecycler() {
+        mFirebaseAuthentication = FirebaseAuth.getInstance();
+        //GET Current User Id
+        userId = mFirebaseAuthentication.getCurrentUser().getUid();
         //Retrieval Query  order
-        Query query = db.collection(DATABASE_COLLECTION).whereEqualTo(USER_ID, userId)
+        Query query = db.collection(DATABASE_COLLECTION).whereEqualTo(USER_ID,userId)
                 .orderBy(TITLE, Query.Direction.ASCENDING);
 
 
@@ -105,7 +116,10 @@ public class MainActivity extends AppCompatActivity {
                         JournalEntry journalE = new JournalEntry();
                         journalE.setId(idBefore);
                         String idAfter = journalE.getId();
-
+//                        SharedPreferences pref = getApplicationContext().getSharedPreferences("keyPref", MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = pref.edit();
+//                        editor.putString("Name_Key", idAfter);
+//                        editor.commit();
                         Intent yt = new Intent(MainActivity.this, DetailActivity.class);
 
                          yt.putExtra(idAfter,"author");
@@ -152,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLinearLayout);
 
+        //opens add entry activity
         addEntryStart();
 
     }
@@ -229,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void signOut() {
+        //sign out
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             mAuth.signOut();
             Intent out = new Intent(MainActivity.this, LoginActivity.class);
@@ -238,15 +254,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onStart() {
             super.onStart();
-            adapter.startListening();
+            //firestore listening starts from database
+            if (mFirebaseAuthentication.getCurrentUser() != null) {
+                adapter.startListening();
+            }else{
+                Intent Login = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(Login);
+            }
 
         }
 
         @Override
         protected void onStop() {
             super.onStop();
-            adapter.stopListening();
-
+            //firestore adapter listening stops from database
+            if (mFirebaseAuthentication.getCurrentUser() != null) {
+                adapter.stopListening();
+            }
         }
 //
     }

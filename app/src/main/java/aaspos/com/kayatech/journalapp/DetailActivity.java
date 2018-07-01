@@ -31,9 +31,6 @@ public class DetailActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private JournalEntry journalEntry;
 
-    DocumentReference dbReference;
-    String getID;
-    String docId;
     TextView tvTitle;
     TextView tvAuthor;
     TextView tvEntry;

@@ -113,10 +113,12 @@ public class EnterEntriesActivity extends AppCompatActivity {
         journalE.setId(idBefore);
         String idAfter = journalE.getId();
         Map<String, Object> newJournalEntry = new HashMap<>();
+        firebaseAuth = FirebaseAuth.getInstance();
+        userId = firebaseAuth.getCurrentUser().getUid();
 
         newJournalEntry.put(TITLE, etTitle.getText().toString());
         newJournalEntry.put(AUTHOR, etAuthor.getText().toString());
-       // newJournalEntry.put(USER_ID, idAfter);
+        newJournalEntry.put(USER_ID, userId);
         newJournalEntry.put(PUSH_KEY, idAfter);
         newJournalEntry.put(TEXT, etTextEntry.getText().toString());
         newJournalEntry.put(TIMESTAMP, FieldValue.serverTimestamp());
