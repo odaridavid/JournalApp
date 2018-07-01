@@ -8,7 +8,7 @@ David Odari
 Description
 ---
 A journal app to manage notes and ones thoughts.
-
+Built Purely On Firebase
 
 Features
 ----
@@ -16,6 +16,9 @@ Features
 *Add Notes
 *View Notes
 *Firebase Authentication
+*Swipe To Delete
 
 
-Runs On Firebase Firestore
+
+CRUD Operations Run On Firebase Firestore
+

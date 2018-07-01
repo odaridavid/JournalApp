@@ -80,42 +80,20 @@ public class DetailActivity extends AppCompatActivity {
 
 }
 
-private void DeleteData(){
-    DocumentReference ref = db.collection(DATABASE_COLLECTION).document();
-    String myId = ref.getId();
 
-    db.collection(DATABASE_COLLECTION)
-            .document(myId)
-            .delete()
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, getString(R.string.entry_delete_snapshot));
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, getString(R.string.error_document_delete_snapshot), e);
-                }
-            });
-        finish();
-}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_detail, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_delete) {
-            DeleteData();
-        }
+
         return super.onOptionsItemSelected(item);
     }
+
 
 }

@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,11 +25,14 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 
+import com.firebase.ui.firestore.SnapshotParser;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.google.firebase.firestore.Query;
@@ -96,14 +101,24 @@ public class MainActivity extends AppCompatActivity {
         //Journal Entry -model containing data
         //query - how data will be retrieved,no sql database
         FirestoreRecyclerOptions<JournalEntry> options = new FirestoreRecyclerOptions.Builder<JournalEntry>()
-                .setQuery(query, JournalEntry.class)
+                .setQuery(query, new SnapshotParser<JournalEntry>() {
+                    @NonNull
+                    @Override
+                    public JournalEntry parseSnapshot(@NonNull DocumentSnapshot snapshot) {
+                        JournalEntry jE = snapshot.toObject(JournalEntry.class);
+                         jE.setDocumentId(snapshot.getId());
+                        return jE;
+
+                    }
+                }).setLifecycleOwner(this)
                 .build();
 
         //Adapter takes in model and view holder which is bound to layout
         adapter = new FirestoreRecyclerAdapter<JournalEntry, journalViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(final journalViewHolder holder, final int position, JournalEntry model) {
+            protected void onBindViewHolder(final journalViewHolder holder, final int position, final JournalEntry model) {
                 holder.setIsRecyclable(false);
+                holder.itemView.setTag(model.getDocumentId());
                 holder.setJournalEntryTitle(model.getTitle());
                 holder.setJournalEntryAuthor(model.getAuthor());
                 holder.setJournalEntryText(model.getText());
@@ -117,21 +132,20 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         //Passing Data To Details
                         //Database Id
-                         clickListener.onItemClick(position,v);
+                      //   clickListener.onItemClick(position,v);
 
 
                         Intent yt = new Intent(MainActivity.this, DetailActivity.class);
 
-                        yt.putExtra("TITLE",title);
-                        yt.putExtra("AUTHOR",author);
-                        yt.putExtra("TEXT",text);
+                        yt.putExtra("TITLE",model.getTitle());
+                        yt.putExtra("AUTHOR",model.getAuthor());
+                        yt.putExtra("TEXT",model.getText());
                         yt.putExtra("FROM","MainActivity");
 
                         MainActivity.this.startActivity(yt);
                         //Toast.makeText(MainActivity.this,g,Toast.LENGTH_SHORT).show();
                     }
                 });
-
 
             }
 
@@ -146,6 +160,35 @@ public class MainActivity extends AppCompatActivity {
         };
         //set Firestore adapter
         mRecyclerView.setAdapter(adapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                String documentId = (String) viewHolder.itemView.getTag();
+               db.collection(DATABASE_COLLECTION)
+                        .document(documentId)
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, getString(R.string.entry_delete_snapshot));
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: " + e.getLocalizedMessage());
+                            }
+                        });
+                adapter.notifyDataSetChanged();
+
+            }
+        }).attachToRecyclerView(mRecyclerView);
     }
 
 

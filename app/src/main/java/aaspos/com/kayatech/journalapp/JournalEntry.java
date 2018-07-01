@@ -19,14 +19,15 @@ public class JournalEntry implements Parcelable {
 
     private String key;
 
-    @Exclude
-    public String getKey() {
-        return key;
+    public String getDocumentId() {
+        return documentId;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
+
+    private @Exclude String documentId;
 
 
 
