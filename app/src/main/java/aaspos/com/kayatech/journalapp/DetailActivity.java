@@ -19,15 +19,22 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DetailActivity extends AppCompatActivity {
     //Constants
     private static final String TAG = DetailActivity.class.getSimpleName();
     private static final String DATABASE_DOCUMENT = "Entry";
     private static final String DATABASE_COLLECTION = "Journal";
-
+    private static final String TITLE = "title";
+    private static final String AUTHOR = "author";
+    private static final String TEXT = "text";
+    private static final String TIMESTAMP = "timestamp";
 
     private FirebaseFirestore db;
 
@@ -72,9 +79,31 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //modify
-                Intent intent = new Intent(DetailActivity.this, EnterEntriesActivity.class);
+                String titleUpdate =   tvTitle.getText().toString();
+                String authorUpdate =  tvAuthor.getText().toString();
+                String entryUpdate =   tvEntry.getText().toString();
 
-                startActivity(intent);
+              //  Toast.makeText(DetailActivity.this,"Update Me",Toast.LENGTH_LONG).show();
+                Map<String, Object> updateEntry = new HashMap<>();
+                updateEntry.put(TITLE, titleUpdate);
+                updateEntry.put(AUTHOR,authorUpdate );
+                updateEntry.put(TEXT,entryUpdate );
+                updateEntry.put(TIMESTAMP, FieldValue.serverTimestamp());
+
+                db.collection("cities").document("LA")
+                        .set(updateEntry)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
             }
         });
 
