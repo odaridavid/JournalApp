@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     JournalEntry journalEntry;
     SharedPreferenceManager sharedPreferenceManager;
+    public String text,author,title;
+    CallBackItem callBackItem;
 
     ClickListener clickListener;
     private FirebaseAuth mFirebaseAuthentication;
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuthentication = FirebaseAuth.getInstance();
         //GET Current User Id
         userId = mFirebaseAuthentication.getCurrentUser().getUid();
+
         //Retrieval Query  order
         Query query = db.collection(DATABASE_COLLECTION).whereEqualTo(USER_ID,userId)
                 .orderBy(TITLE, Query.Direction.ASCENDING);
@@ -99,36 +102,32 @@ public class MainActivity extends AppCompatActivity {
         //Adapter takes in model and view holder which is bound to layout
         adapter = new FirestoreRecyclerAdapter<JournalEntry, journalViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(journalViewHolder holder, final int position, JournalEntry model) {
+            protected void onBindViewHolder(final journalViewHolder holder, final int position, JournalEntry model) {
                 holder.setIsRecyclable(false);
-
-
                 holder.setJournalEntryTitle(model.getTitle());
                 holder.setJournalEntryAuthor(model.getAuthor());
                 holder.setJournalEntryText(model.getText());
 
+                author = model.getAuthor();
+                text=model.getText();
+                title= model.getTitle();
+            //    journalEntryList.set(position,journalEntryList.get(holder.getAdapterPosition()));
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //Passing Data To Details
                         //Database Id
-                        String idBefore = db.collection(DATABASE_COLLECTION).document().getId();
-                        JournalEntry journalE = new JournalEntry();
-                        journalE.setId(idBefore);
-                        String idAfter = journalE.getId();
-//                        SharedPreferences pref = getApplicationContext().getSharedPreferences("keyPref", MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = pref.edit();
-//                        editor.putString("Name_Key", idAfter);
-//                        editor.commit();
+                         clickListener.onItemClick(position,v);
+
+
                         Intent yt = new Intent(MainActivity.this, DetailActivity.class);
 
-                         yt.putExtra(idAfter,"author");
-                         yt.putExtra(idAfter,"text");
-                         yt.putExtra(idAfter,"title");
-//                        yt.putExtra(Intent.EXTRA_KEY_EVENT,journalEntryList.get(position).getAuthor());
-//                        yt.putExtra(Intent.EXTRA_REFERRER,journalEntryList.get(position).getTitle());
+                        yt.putExtra("TITLE",title);
+                        yt.putExtra("AUTHOR",author);
+                        yt.putExtra("TEXT",text);
+                        yt.putExtra("FROM","MainActivity");
 
-                       MainActivity.this.startActivity(yt);
+                        MainActivity.this.startActivity(yt);
                         //Toast.makeText(MainActivity.this,g,Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -219,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
                 tvTextRecyclerList.setText(journalEntryText);
             }
         }
+
 
         @Override
         public void onClick(View v) {

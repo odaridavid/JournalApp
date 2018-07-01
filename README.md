@@ -7,8 +7,15 @@ David Odari
 
 Description
 ---
-A journal app to manage notes and ones thoughts 
+A journal app to manage notes and ones thoughts.
 
 
-Still in development.
+Features
+----
+*Google Authentication
+*Add Notes
+*View Notes
+*Firebase Authentication
 
+
+Runs On Firebase Firestore

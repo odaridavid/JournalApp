@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,15 +27,14 @@ public class DetailActivity extends AppCompatActivity {
     private static final String TAG = DetailActivity.class.getSimpleName();
     private static final String DATABASE_DOCUMENT = "Entry";
     private static final String DATABASE_COLLECTION = "Journal";
-    public static final String VALUES = "text_value";
+
 
     private FirebaseFirestore db;
-    private JournalEntry journalEntry;
 
     TextView tvTitle;
     TextView tvAuthor;
     TextView tvEntry;
-    TextView timeTextView;
+
     boolean boolUpdate = false;
     FloatingActionButton fabSetView;
 
@@ -45,54 +45,40 @@ public class DetailActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-
-
         tvTitle = findViewById(R.id.text_title_view);
         tvAuthor = findViewById(R.id.text_author_view);
-        tvEntry = findViewById(R.id.edit_text_entry);
+        tvEntry = findViewById(R.id.text_entry_view);
         fabSetView = findViewById(R.id.fab_edit_entry);
 
-        Intent intent = getIntent();
-       // String restaurantId = getIntent().getExtras().getString(Intent.EXTRA_KEY_EVENT);
-        if (intent != null) {
-
-            boolUpdate = true;
-            String idBefore = db.collection(DATABASE_COLLECTION).document().getId();
-            JournalEntry journalE = new JournalEntry();
-            journalE.setId(idBefore);
-            String idAfter = journalE.getId();
-            Bundle extras = getIntent().getExtras();
-            if(extras !=null)
-            {
-                String value = extras.getString(idAfter);
-            }
 
 
-        }
-        //add timestamp later
+
+            String title = getIntent().getStringExtra("TITLE");
+            String author = getIntent().getStringExtra("AUTHOR");
+            String entry = getIntent().getStringExtra("TEXT");
+
+
+            tvTitle.setText(title);
+            tvAuthor.setText(author);
+            tvEntry.setText(entry);
+
+
+
+
+
 
 
         fabSetView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //modify
                 Intent intent = new Intent(DetailActivity.this, EnterEntriesActivity.class);
-            //    if (id == FirebaseFirestore.getInstance().toString().){}
-               // intent.putExtra(EnterEntriesActivity.VALUES, journalEntry);
+
                 startActivity(intent);
             }
         });
 
 }
-
-//void updateUI(final JournalEntry journalEntry){
-//        tvTitle.setText(journalEntry.getTitle());
-//        tvAuthor.setText(journalEntry.getAuthor());
-//        tvEntry.setText(journalEntry.getText());
-//        getID = journalEntry.getId();
-//
-
-//
-//}
 
 private void DeleteData(){
     DocumentReference ref = db.collection(DATABASE_COLLECTION).document();
