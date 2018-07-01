@@ -13,9 +13,13 @@ Built Purely On Firebase
 Features
 ----
 *Google Authentication*
+
 *Add Notes*
-*View Notes
+
+*View Notes*
+
 *Firebase Authentication*
+
 *Swipe To Delete*
 
 
