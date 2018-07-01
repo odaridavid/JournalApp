@@ -79,9 +79,9 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //modify
-                String titleUpdate =   tvTitle.getText().toString();
-                String authorUpdate =  tvAuthor.getText().toString();
-                String entryUpdate =   tvEntry.getText().toString();
+                final String titleUpdate =   tvTitle.getText().toString();
+                final String authorUpdate =  tvAuthor.getText().toString();
+                final String entryUpdate =   tvEntry.getText().toString();
 
               //  Toast.makeText(DetailActivity.this,"Update Me",Toast.LENGTH_LONG).show();
                 Map<String, Object> updateEntry = new HashMap<>();
@@ -90,12 +90,14 @@ public class DetailActivity extends AppCompatActivity {
                 updateEntry.put(TEXT,entryUpdate );
                 updateEntry.put(TIMESTAMP, FieldValue.serverTimestamp());
 
-                db.collection("cities").document("LA")
+                db.collection(DATABASE_COLLECTION).document()
                         .set(updateEntry)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                               tvAuthor.setText(authorUpdate);
+                               tvEntry.setText(entryUpdate);
+                               tvTitle.setText(titleUpdate);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

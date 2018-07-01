@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         //set Firestore adapter
-        mRecyclerView.setAdapter(adapter);
+
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
@@ -177,6 +177,9 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, getString(R.string.entry_delete_snapshot));
+                                mRecyclerView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -185,10 +188,12 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "onFailure: " + e.getLocalizedMessage());
                             }
                         });
-                adapter.notifyDataSetChanged();
+
+
 
             }
         }).attachToRecyclerView(mRecyclerView);
+        mRecyclerView.setAdapter(adapter);
     }
 
 
