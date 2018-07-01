@@ -106,8 +106,7 @@ public class EnterEntriesActivity extends AppCompatActivity {
 
     private void addJournalEntry() {
         //Document id
-//        journalEntry.setId(db.collection(DATABASE_COLLECTION).document().getId());
-//        String docRefid = journalEntry.getId();
+
         String idBefore = db.collection(DATABASE_COLLECTION).document().getId();
         JournalEntry journalE = new JournalEntry();
         journalE.setId(idBefore);
