@@ -79,11 +79,45 @@ public class MainActivity extends AppCompatActivity {
         activityBegin();
         if (mFirebaseAuthentication.getCurrentUser() != null) {
             firestoreRecycler();
+
         }else{
             Toast.makeText(MainActivity.this,"Sign Up",Toast.LENGTH_LONG).show();
             Intent Login = new Intent(MainActivity.this,LoginActivity.class);
             startActivity(Login);
         }
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                String documentId = (String) viewHolder.itemView.getTag();
+                db.collection(DATABASE_COLLECTION)
+                        .document(documentId)
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, getString(R.string.entry_delete_snapshot));
+                                mRecyclerView.setAdapter(jadapter);
+                                adapter.notifyDataSetChanged();
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: " + e.getLocalizedMessage());
+                            }
+                        });
+
+
+
+            }
+        }).attachToRecyclerView(mRecyclerView);
+        mRecyclerView.setAdapter(adapter);
 
     }
 
@@ -161,39 +195,7 @@ public class MainActivity extends AppCompatActivity {
         //set Firestore adapter
 
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
 
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                String documentId = (String) viewHolder.itemView.getTag();
-               db.collection(DATABASE_COLLECTION)
-                        .document(documentId)
-                        .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, getString(R.string.entry_delete_snapshot));
-                                mRecyclerView.setAdapter(adapter);
-                                adapter.notifyDataSetChanged();
-
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "onFailure: " + e.getLocalizedMessage());
-                            }
-                        });
-
-
-
-            }
-        }).attachToRecyclerView(mRecyclerView);
-        mRecyclerView.setAdapter(adapter);
     }
 
 
