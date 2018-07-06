@@ -85,15 +85,15 @@ public class MainActivity extends AppCompatActivity {
             Intent Login = new Intent(MainActivity.this,LoginActivity.class);
             startActivity(Login);
         }
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                String documentId = (String) viewHolder.itemView.getTag();
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
+                final String documentId = (String) viewHolder.itemView.getTag();
                 db.collection(DATABASE_COLLECTION)
                         .document(documentId)
                         .delete()
@@ -101,8 +101,9 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, getString(R.string.entry_delete_snapshot));
-                                mRecyclerView.setAdapter(jadapter);
-                                adapter.notifyDataSetChanged();
+                               // mRecyclerView.setAdapter(jadapter);
+
+
 
                             }
                         })
@@ -117,8 +118,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }).attachToRecyclerView(mRecyclerView);
-        mRecyclerView.setAdapter(adapter);
 
+        adapter.startListening();
+        mRecyclerView.setAdapter(adapter);
+       // mRecyclerView.setAdapter(jadapter);
     }
 
 
