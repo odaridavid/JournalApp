@@ -12,19 +12,24 @@ Built Purely On Firebase
 
 Features
 ----
-*Google Authentication*
+* Google Authentication
 
-*Add Notes*
+* Add Notes
 
-*View Notes*
+* View Notes
 
-*Firebase Authentication*
+* Firebase Authentication
 
-*Swipe To Delete*
+* Swipe To Delete
 
 
+### Screenshots
 
-CRUD Operations Run On Firebase Firestore
 
-#Includes Espresso Testing #
+| [![Screen1](https://github.com/Davidodari/Smoovie-android-TMDb/blob/master/Screenshot1.png)](http://videoblocks.com)  | [![Screen2](https://github.com/Davidodari/Smoovie-android-TMDb/blob/master/Screenshot_2.png)](http://audioblocks.com) | [![Screen3](https://github.com/Davidodari/Smoovie-android-TMDb/blob/master/Screenshot_5.png)](http://graphicstock.com) |
+|:---:|:---:|:---:|
+| Login Activity | Main Activity | Detail Activity |
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details
