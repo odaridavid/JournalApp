@@ -38,10 +38,10 @@
             android:name=".EnterEntriesActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:parentActivityName=".MainActivity"
-            android:label="Note Details"
             android:name=".DetailActivity"
-            />
+            android:label="Note Details"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ConActivity"></activity>
     </application>
 
 </manifest>
