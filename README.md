@@ -26,7 +26,7 @@ Features
 ### Screenshots
 
 
-| [![Screen1](https://github.com/Davidodari/JournalApp/blob/master/Journal_2.png)]  | [![Screen2](https://github.com/Davidodari/JournalApp/blob/master/Journal_!.png)] | [![Screen3](https://github.com/Davidodari/JournalApp/blob/master/Journal_3.png)] |
+| [![Screen1](https://github.com/Davidodari/JournalApp/blob/master/Journal_3.png)]  | [![Screen2](https://github.com/Davidodari/JournalApp/blob/master/Journal_!.png)] | [![Screen3](https://github.com/Davidodari/JournalApp/blob/master/Journal_2.png)] |
 |:---:|:---:|:---:|
 | Login Activity | Main Activity | Detail Activity |
 
