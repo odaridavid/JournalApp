@@ -26,7 +26,7 @@ Features
 ### Screenshots
 
 
-| [![Screen1](https://github.com/Davidodari/Smoovie-android-TMDb/blob/master/Screenshot1.png)](http://videoblocks.com)  | [![Screen2](https://github.com/Davidodari/Smoovie-android-TMDb/blob/master/Screenshot_2.png)](http://audioblocks.com) | [![Screen3](https://github.com/Davidodari/Smoovie-android-TMDb/blob/master/Screenshot_5.png)](http://graphicstock.com) |
+| [![Screen1](https://github.com/Davidodari/JournalApp/blob/master/Journal_2.png)]  | [![Screen2](https://github.com/Davidodari/JournalApp/blob/master/Journal_!.png)] | [![Screen3](https://github.com/Davidodari/JournalApp/blob/master/Journal_3.png)] |
 |:---:|:---:|:---:|
 | Login Activity | Main Activity | Detail Activity |
 

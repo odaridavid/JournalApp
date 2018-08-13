@@ -41,7 +41,6 @@
             android:name=".DetailActivity"
             android:label="Note Details"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".ConActivity"></activity>
     </application>
 
 </manifest>
